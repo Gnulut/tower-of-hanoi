@@ -14,7 +14,7 @@ public:
     SDL_AppResult event(SDL_Event* event) override;
     void render(SDL_Renderer* renderer) override;
     scene* switch_scene() override;
-    void main_menu_scene::reset() override;
+    void reset() override;
     void set_next_scene(scene* next_scene);
 private:
     //position of button

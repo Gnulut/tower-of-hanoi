@@ -4,43 +4,51 @@
 #include <string>
 
 #include "tower_data.hpp"
-#include "draw_utils.hpp"
 #include "config.hpp"
-#include "scene.hpp"
+#include "main_menu.hpp"
+#include "game_menu.hpp"
 
 class engine {
-private:
-    tower_data tower;
-    scene* current_scene;
-    int current_button_selected = 0;
-
-    // Button texts and positions
-    // const char* const button_texts[4] {"Tower Height: ", "Start Position: ", "Goal Position: ", "Start: "};
-    // const char* const position_texts[4] = {"Left", "Middle", "Right", "Random"};
-    // int button_options[3] = {5, 0, 2};
-    // double button_width_ratio = 0.3;// ratio of button to WINDOW_WIDTH;
-    // int button_count = 4;
-
-    // For tower_event_handler
-    int move_positions[2] = {};
-    int move_index = 0;
-
-
 public:
-    SDL_Window* window = nullptr;   // standard SDL usage
-    SDL_Renderer* renderer = nullptr;
-
     engine();
+    ~engine();
 
-    // Core functions
+// core function(s)
+
+    // render
     void render();
 
     // Event handlers
     SDL_AppResult event(SDL_Event* event);
 
+    // change scene
     void try_switch();
 
+// misc function(s)
+
+    // get_window
+    SDL_Window*& get_window();
+
+    // get_renderer
+    SDL_Renderer*& get_renderer();
+
+    // let others borrow tower
     tower_data& get_tower();
 
+    // link up first scene, usually it's main menu
     void set_first_scene(scene* first_scene);
+
+// need to delete variables
+
+    void add_scene(scene* new_scene);
+
+private:
+// window and renderer
+    SDL_Window* window = nullptr;
+    SDL_Renderer* renderer = nullptr;
+
+// system data
+    tower_data tower;
+    scene* current_scene = nullptr;
+    std::vector<scene*> scenes;
 };

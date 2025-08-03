@@ -22,5 +22,7 @@ public:
 protected:
     // provides a way to link to another scene
     scene* next_scene = nullptr;
-    bool switch_scene_flag = false; //flag for switching to another scene
+
+    // flag to indicate request switching to another scene
+    bool switch_scene_flag = false; 
 };
