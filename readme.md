@@ -46,6 +46,12 @@ cmake -S . -B build -DCMAKE_PREFIX_PATH="<path_to:/lib/SDL3>"
 cmake --build .
 ```
 
+# Next target(s)
+- make live demo
+- remake main menu
+- make resizeable window
+- use ttf to display text
+- create other ways to display target disk
 
 # License
 This project is licensed under the MIT License – see the [LICENSE.txt](LICENSE.txt) file for details.

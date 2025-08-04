@@ -3,6 +3,7 @@
 main_menu_scene::main_menu_scene(tower_data& tower):
     tower(tower)
 {
+    
 }
 
 SDL_AppResult main_menu_scene::event(SDL_Event *event) {

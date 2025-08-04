@@ -5,6 +5,7 @@
 // base class for managing event and rendering
 class scene{ 
 public:
+    scene() = default;
     virtual ~scene() = default;
 
     // handle events

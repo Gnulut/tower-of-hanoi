@@ -36,6 +36,8 @@ add_executable(${CMAKE_PROJECT_NAME}
     src/scene/scene.cpp
     src/towerofhanoi/tower_data.cpp
     src/towerofhanoi/tower_disk.cpp
+    src/utils/button/button_base.cpp
+    src/utils/button/button_tower_height.cpp
     src/utils/color.cpp
     src/utils/draw_utils.cpp
     src/utils/random_utils.cpp
@@ -51,6 +53,7 @@ target_include_directories(TowerOfHanoi PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/src/scene
     ${CMAKE_CURRENT_SOURCE_DIR}/src/towerofhanoi
     ${CMAKE_CURRENT_SOURCE_DIR}/src/utils
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/utils/button
 )
 
 target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE SDL3::SDL3)

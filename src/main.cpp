@@ -1,6 +1,7 @@
 #define SDL_MAIN_USE_CALLBACKS 1 
 #include <SDL3/SDL.h>
 #include <SDL3/SDL_main.h>
+#include <string>
 
 #include "engine.hpp"
 
@@ -16,7 +17,8 @@ SDL_AppResult SDL_AppInit(void** appstate, int argc, char* argv[]){
     *appstate = game_engine;
     if (!SDL_CreateWindowAndRenderer("Tower of Hanoi", 
         constants::WINDOW_WIDTH, constants::WINDOW_HEIGHT, 0, 
-        &game_engine->get_window(), &game_engine->get_renderer())) {
+        &game_engine->get_window(), &game_engine->get_renderer())) 
+    {
         SDL_Log("Couldn't create window/renderer: %s", SDL_GetError());
         return SDL_APP_FAILURE;
     }
