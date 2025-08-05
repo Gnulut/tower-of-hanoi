@@ -1,5 +1,3 @@
-#pragma once
-
 // Get a shared RNG instance
 #include "random_utils.hpp"
 

@@ -1,5 +1,6 @@
-build
-CMakeCache.txt
 .vscode
+build
+build_native
 my_note.txt
 my_log.txt
+vendored

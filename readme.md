@@ -36,14 +36,14 @@ Tower of Hanoi with extra mode (Random)
 ## Prerequisite
 - c++ compiler (c++20 preferred)
 - cmake (cmake 4.0 preferred)
-- SDL3 Library (optional)
+- SDL3 Library
+- emscripten
 
 ## Build commands
-replace <path_to:/lib/SDL3> with actual path on your computer<br>
-
 ```
-cmake -S . -B build -DCMAKE_PREFIX_PATH="<path_to:/lib/SDL3>"
-cmake --build .
+git clone https://github.com/libsdl-org/SDL.git vendored/SDL
+cmake -S . -B build
+cmake --build build
 ```
 
 # Next target(s)

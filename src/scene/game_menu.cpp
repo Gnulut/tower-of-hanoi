@@ -22,6 +22,10 @@ SDL_AppResult game_menu_scene::event(SDL_Event* event) {
                     this->move_index = 0;
                     break;
                 }
+                default:{
+                    // left intentionally empty
+                    break;
+                }
             }
             break;
         }

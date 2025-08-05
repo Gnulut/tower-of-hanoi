@@ -1,34 +1,17 @@
-cmake_minimum_required(VERSION 4.0)
+cmake_minimum_required(VERSION 3.16)
 project(TowerOfHanoi)
 
-set(CMAKE_CXX_STANDARD 20)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/$<CONFIGURATION>")
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/$<CONFIGURATION>")
 
-option(DOWNLOAD_DEPENDENCIES "Download dependencies, currently only SDL3" False)
+add_subdirectory(vendored/SDL EXCLUDE_FROM_ALL)
 
-if (DOWNLOAD_DEPENDENCIES)
-    # FetchContent downloads and configures dependencies
-    include(FetchContent)
-    FetchContent_Declare(
-            SDL3
-            GIT_REPOSITORY "https://github.com/libsdl-org/SDL.git"
-            GIT_TAG "main"
-            EXCLUDE_FROM_ALL
-    )
-    FetchContent_MakeAvailable(SDL3)
-else ()
-    # find_package looks for already-installed system packages.
-    # Configure with `-DCMAKE_PREFIX_PATH="/path/to/package1;/path/to/package2"`
-    # to add search paths.
-    find_package(SDL3 CONFIG REQUIRED)
-endif ()
-
-if (ANDROID)
-    # SDL applications need to be built as a shared library
-    function(add_executable TARGET)
-        add_library(${TARGET} SHARED ${ARGN})
-    endfunction()
-endif ()
+if(EMSCRIPTEN)
+  set(CMAKE_EXECUTABLE_SUFFIX ".html" CACHE INTERNAL "")
+  
+  # Pass Emscripten-specific flags to generate a runnable HTML page
+  # set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -sEXIT_RUNTIME=1 -sWASM=1 --shell-file ${CMAKE_SOURCE_DIR}/shell.html")
+endif()
 
 add_executable(${CMAKE_PROJECT_NAME}
     src/scene/game_menu.cpp
@@ -46,9 +29,11 @@ add_executable(${CMAKE_PROJECT_NAME}
     src/main.cpp
 )
 
-set_target_properties(TowerOfHanoi PROPERTIES LINK_FLAGS "/SUBSYSTEM:CONSOLE")
+# if(NOT EMSCRIPTEN)
+#     set_target_properties(TowerOfHanoi PROPERTIES LINK_FLAGS "/SUBSYSTEM:CONSOLE")
+# endif()
 
-target_include_directories(TowerOfHanoi PRIVATE
+target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/src
     ${CMAKE_CURRENT_SOURCE_DIR}/src/scene
     ${CMAKE_CURRENT_SOURCE_DIR}/src/towerofhanoi
@@ -60,4 +45,4 @@ target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE SDL3::SDL3)
 
 # This is safe to set on all platforms. Otherwise your SDL app will
 #  have a terminal window pop up with it on Windows.
-set_property(TARGET ${CMAKE_PROJECT_NAME} PROPERTY WIN32_EXECUTABLE TRUE)
+# set_property(TARGET ${CMAKE_PROJECT_NAME} PROPERTY WIN32_EXECUTABLE TRUE)
