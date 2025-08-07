@@ -108,12 +108,12 @@ void game_menu_scene::render(SDL_Renderer* renderer) {
             if(this->tower.view_peg(location_horizontal).size() <= location_vertical ||
                this->tower.view_peg(location_horizontal)[location_vertical]->get_size() != disk->get_size())
             { // red color
-                draw_innie_rectangle_weighted(renderer, rect, 1.0f, 0.f, 0.2f, 0.25f, 
+                draw_innie_rectangle_weighted(renderer, *rect, 1.0f, 0.f, 0.2f, 0.25f, 
                     (float)(this->innie_rect_ratio*std::min(rect->w, rect->h)));
             }
             // otherwise target is achieved
             else{ // green color
-                draw_innie_rectangle_weighted(renderer, rect, 0.f, 1.0f, 0.2f, 0.25f, 
+                draw_innie_rectangle_weighted(renderer, *rect, 0.f, 1.0f, 0.2f, 0.25f, 
                     (float)(this->innie_rect_ratio*std::min(rect->w, rect->h)));
             }
 
@@ -135,7 +135,7 @@ void game_menu_scene::render(SDL_Renderer* renderer) {
             SDL_FRect* rect = game_menu_scene::make_disk_rect(*disk);
 
             // put rect
-            draw_innie_rectangle_weighted(renderer, rect, 1.0f, 1.0f, 0.2f, SDL_ALPHA_OPAQUE_FLOAT, (float)(this->innie_rect_ratio*std::min(rect->w, rect->h)));
+            draw_innie_rectangle_weighted(renderer, *rect, 1.0f, 1.0f, 0.2f, SDL_ALPHA_OPAQUE_FLOAT, (float)(this->innie_rect_ratio*std::min(rect->w, rect->h)));
 
             // release memory
             delete rect;
@@ -144,14 +144,14 @@ void game_menu_scene::render(SDL_Renderer* renderer) {
             SDL_FRect rect{(float) location_horizontal * (float) constants::WINDOW_WIDTH / (float) this->tower.get_width(), 0.f, 
                            (float) constants::WINDOW_WIDTH / (float) this->tower.get_width(), constants::WINDOW_HEIGHT};
             // put rect
-            draw_innie_rectangle_weighted(renderer, &rect, 1.0f, 1.0f, 0.2f, SDL_ALPHA_OPAQUE_FLOAT, (float)(this->innie_rect_ratio*std::min(rect.w, rect.h)));
+            draw_innie_rectangle_weighted(renderer, rect, 1.0f, 1.0f, 0.2f, SDL_ALPHA_OPAQUE_FLOAT, (float)(this->innie_rect_ratio*std::min(rect.w, rect.h)));
         }
     }
 
     // render move counter
     SDL_SetRenderScale(renderer, 4.0f, 4.0f);
     SDL_SetRenderDrawColorFloat(renderer, 0.1f, 0.5f, 1.0f, SDL_ALPHA_OPAQUE_FLOAT);
-    SDL_RenderDebugTextFormat(renderer, 0.f, 0.f, "Optimal Moves: %d", this->optimal_moves);
+    SDL_RenderDebugTextFormat(renderer, 0.f, 0.f, "Optimal Moves: %u", this->optimal_moves);
     SDL_RenderDebugTextFormat(renderer, 0.f, 10.f, "Moves: %d", this->move_counter);
     SDL_SetRenderScale(renderer, 1.0f, 1.0f);
 }

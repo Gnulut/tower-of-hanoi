@@ -35,12 +35,20 @@ void button_tower_height::render(SDL_Renderer* renderer) const
     }
     const float scaler = 2.0;
     SDL_FRect render_rect = this->rect;
+    render_rect.x += this->border_weight;
+    render_rect.y += this->border_weight;
     render_rect.x/=scaler;
     render_rect.y/=scaler;
     SDL_SetRenderScale(renderer, scaler, scaler);
-    SDL_RenderDebugTextFormat(renderer, render_rect.x, render_rect.y, "%s", this->get_text());
+    SDL_SetRenderDrawColorFloat(renderer, this->color_text.red, this->color_text.green, this->color_text.blue, this->color_text.alpha);
+    SDL_RenderDebugTextFormat(renderer, render_rect.x, render_rect.y, "%s", this->get_text().c_str());
     render_rect.x*=scaler;
     render_rect.y*=scaler;
+    SDL_SetRenderScale(renderer, 1.0f, 1.0f);
+
+    if(this->selected){
+        draw_outie_rectangle_weighted(renderer, this->rect, this->color_border_select, this->border_weight);
+    }
 }
 
 void button_tower_height::event(SDL_Event* event)

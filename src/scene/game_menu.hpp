@@ -38,7 +38,7 @@ private:
 
     // game runtime data
     int move_counter = 0;
-    int optimal_moves = 0;
+    unsigned int optimal_moves = 0;
     
     // graphical data
     double peg_width;

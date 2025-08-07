@@ -1,26 +1,26 @@
 #include "draw_utils.hpp"
 
-void draw_outie_rectangle_weighted(SDL_Renderer* renderer, SDL_FRect* rect, 
+void draw_outie_rectangle_weighted(SDL_Renderer* renderer, const SDL_FRect& rect, 
     const float red, const float green, const float blue, const float alpha, const float weight)
 {
     SDL_SetRenderDrawColorFloat(renderer, red, green, blue, alpha);
     // top rectangle
-    SDL_FRect border_rect{rect->x - weight, rect->y - weight, rect->w + 2*weight, weight};
+    SDL_FRect border_rect{rect.x - weight, rect.y - weight, rect.w + 2*weight, weight};
     SDL_RenderFillRect(renderer, &border_rect);
     //bottom rectangle
-    border_rect.y = rect->y + rect->h;
+    border_rect.y = rect.y + rect.h;
     SDL_RenderFillRect(renderer, &border_rect);
     //left rectangle
-    border_rect.y = rect->y;
+    border_rect.y = rect.y;
     border_rect.w = weight;
-    border_rect.h = rect->h;
+    border_rect.h = rect.h;
     SDL_RenderFillRect(renderer, &border_rect);
     //right rectangle
-    border_rect.x = rect->x + rect->w;
+    border_rect.x = rect.x + rect.w;
     SDL_RenderFillRect(renderer, &border_rect);
 }
 
-void draw_outie_rectangle_weighted(SDL_Renderer* renderer, SDL_FRect* rect, 
+void draw_outie_rectangle_weighted(SDL_Renderer* renderer, const SDL_FRect& rect, 
     const float_color& color, const float weight)
 {
     draw_outie_rectangle_weighted(renderer, rect, 
@@ -28,27 +28,27 @@ void draw_outie_rectangle_weighted(SDL_Renderer* renderer, SDL_FRect* rect,
 }
 
 
-void draw_innie_rectangle_weighted(SDL_Renderer* renderer, const SDL_FRect* rect, 
+void draw_innie_rectangle_weighted(SDL_Renderer* renderer, const SDL_FRect& rect, 
     const float red, const float green, const float blue, const float alpha, const float weight)
 {
     SDL_SetRenderDrawColorFloat(renderer, red, green, blue, alpha);
     // top rectangle
-    SDL_FRect border_rect{rect->x, rect->y, rect->w, weight};
+    SDL_FRect border_rect{rect.x, rect.y, rect.w, weight};
     SDL_RenderFillRect(renderer, &border_rect);
     //bottom rectangle
-    border_rect.y = rect->y + rect->h - weight;
+    border_rect.y = rect.y + rect.h - weight;
     SDL_RenderFillRect(renderer, &border_rect);
     //left rectangle
-    border_rect.y = rect->y + weight;
+    border_rect.y = rect.y + weight;
     border_rect.w = weight;
-    border_rect.h = rect->h - 2*weight;
+    border_rect.h = rect.h - 2*weight;
     SDL_RenderFillRect(renderer, &border_rect);
     //right rectangle
-    border_rect.x = rect->x + rect->w - weight;
+    border_rect.x = rect.x + rect.w - weight;
     SDL_RenderFillRect(renderer, &border_rect);
 }
 
-void draw_innie_rectangle_weighted(SDL_Renderer* renderer, const SDL_FRect* rect, 
+void draw_innie_rectangle_weighted(SDL_Renderer* renderer, const SDL_FRect& rect, 
     const float_color& color, const float weight)
 {
     draw_innie_rectangle_weighted(renderer, rect, 
@@ -63,7 +63,7 @@ void draw_bordered_rectangle_weighted(SDL_Renderer* renderer, const SDL_FRect& r
     // border
     SDL_FRect border_rect = rect;
     // draw border
-    draw_innie_rectangle_weighted(renderer, &border_rect, red_border, green_border, blue_border, alpha_border, weight);
+    draw_innie_rectangle_weighted(renderer, border_rect, red_border, green_border, blue_border, alpha_border, weight);
     // body
     SDL_FRect& inside_rect = border_rect;
     inside_rect.x += weight;

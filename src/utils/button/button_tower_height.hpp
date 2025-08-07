@@ -19,7 +19,7 @@ public:
 
     void render(SDL_Renderer* renderer) const override;
 
-    void event(SDL_Event* event) = 0;
+    void event(SDL_Event* event) override;
     // get value, used on events
     button_base::return_variant get_value() const override;
 
@@ -40,9 +40,10 @@ private:
     
     // rectangle colors
     float border_weight = 30; // in pixels
-    float_color color_normal{0.8f, 0.0f, 0.0f, 1.0f};
-    float_color color_bright{1.0f, 0.2f, 0.2f, 1.0f};
-    float_color color_border{0.0f, 0.0f, 0.0f, 1.0f};
-    float_color color_border_bright{0.2f, 0.2f, 0.2f, 1.0f};
-    
+    float_color color_text{0.4f, 1.0f, 0.4f, 1.0f};
+    float_color color_normal{0.8f, 0.3f, 0.3f, 1.0f};
+    float_color color_bright{1.0f, 0.5f, 0.5f, 1.0f};
+    float_color color_border{0.2f, 0.2f, 0.2f, 1.0f};
+    float_color color_border_bright{0.4f, 0.3f, 0.3f, 1.0f};
+    float_color color_border_select{0.3f, 0.8f, 0.5f, 1.0f};
 };

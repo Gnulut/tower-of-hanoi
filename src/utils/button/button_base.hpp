@@ -1,5 +1,6 @@
 #pragma once
 
+#include <SDL3/SDL.h>
 #include <variant>
 
 #include "tower_data.hpp"
@@ -25,8 +26,17 @@ public:
     // setup rect graphical (GUI) location
     void set_rect(const SDL_FRect& rect);
 
+    // points/unpoints this button
+    void select();
+    void unselect();
+
+    bool inside(const SDL_FPoint& mouse_point);
 protected:
     virtual const std::string& get_text() const = 0;
+
+    // indicate whether this button is selected
+    bool selected = false;
+
     // GUI location + size (rectangle)
     SDL_FRect rect;
 };
