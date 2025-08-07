@@ -24,8 +24,6 @@ public:
     // get value, used on events
     button_base::return_variant get_value() const override;
 
-    const std::string& get_text() const;
-
     // create neighbour, needed to prevent same values
     void set_neighbour(const button_tower_position* const neighbour);
 
@@ -38,9 +36,9 @@ private:
     const button_tower_position* neighbour;
 
     // control whether this is a start tower or a target tower
-    inline static char* button_texts[2] = {"Start Position: ", "Target Position: "};
+    inline static const char* button_texts[2] = {"Start Position: ", "Target Position: "};
     inline static start_or_target_position default_positions[2] = {start_or_target_position::LEFT, start_or_target_position::RIGHT};
-    inline static char* texts[4] = {"Left", "Middle", "Right", "Random"};
+    inline static const char* texts[4] = {"Left", "Middle", "Right", "Random"};
     inline static int type = 0;
 
 // graphical values, used in rendering
