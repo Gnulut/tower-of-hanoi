@@ -19,6 +19,7 @@ add_executable(${CMAKE_PROJECT_NAME}
     src/scene/scene.cpp
     src/towerofhanoi/tower_data.cpp
     src/towerofhanoi/tower_disk.cpp
+    src/towerofhanoi/tower_GUI.cpp
     src/utils/button/button_base.cpp
     src/utils/button/button_start.cpp
     src/utils/button/button_tower_height.cpp

@@ -28,7 +28,7 @@ void engine::render() const
     SDL_SetRenderDrawColorFloat(this->renderer, 0.3f, 0.3f, 0.3f, SDL_ALPHA_OPAQUE_FLOAT);// background color
     SDL_RenderClear(this->renderer);
     // scene render
-    this->current_scene->render(this->renderer);
+    this->current_scene->render(this->renderer, this->window);
     // present
     SDL_RenderPresent(this->renderer);
 }
@@ -63,7 +63,15 @@ void engine::resize()
 void engine::try_switch()
 {
     scene* next_scene = this->current_scene->switch_scene();
-    current_scene = next_scene;
+    if(current_scene != next_scene){
+        current_scene = next_scene;
+
+        {// resize
+            int width, height;
+            SDL_GetWindowSize(this->window, &width, &height);
+            this->current_scene->resize(width, height);
+        }
+    }
 }
 
 tower_data& engine::get_tower()

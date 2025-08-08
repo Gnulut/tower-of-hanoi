@@ -31,18 +31,18 @@ SDL_AppResult main_menu_scene::event(SDL_Event *event)
         case SDL_EVENT_KEY_DOWN: {// keyboard
             SDL_Scancode key_scancode = event->key.scancode;
             switch (key_scancode) {
+                case SDL_SCANCODE_W:
+                    [[falltrough]]
                 case SDL_SCANCODE_UP: {
-                    // previous button
-                    this->buttons[this->current_button_selected]->unselect();
-                    this->current_button_selected = (current_button_selected + (this->button_count-1)) % this->button_count;
-                    this->buttons[this->current_button_selected]->select();
+                    // change into previous button
+                    this->change_selected_button((this->current_button_selected + (this->button_count-1)) % this->button_count);
                     break;
                 }
+                case SDL_SCANCODE_S:
+                    [[falltrough]]
                 case SDL_SCANCODE_DOWN: {
-                    // next button
-                    this->buttons[this->current_button_selected]->unselect();
-                    this->current_button_selected = (current_button_selected + 1) % this->button_count;
-                    this->buttons[this->current_button_selected]->select();
+                    // change into next button
+                    this->change_selected_button((this->current_button_selected + 1) % this->button_count);
                     break;
                 }
                 default: {
@@ -134,4 +134,11 @@ void main_menu_scene::change_scene()
         std::get<start_or_target_position>(buttons[1]->get_value()),
         std::get<start_or_target_position>(buttons[2]->get_value()));
     this->switch_scene_flag=true;
+}
+
+void main_menu_scene::change_selected_button(int button_number)
+{
+    this->buttons[this->current_button_selected]->unselect();
+    this->current_button_selected = button_number;
+    this->buttons[this->current_button_selected]->select();
 }

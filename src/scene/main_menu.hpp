@@ -26,8 +26,13 @@ public:
     // link up transition scene
     void set_next_scene(scene* const next_scene);
 
+    // activate scene_change, this is implementation for simple 1 link
     void change_scene();
 private:
+
+    // change selected button, deactivate the previous one
+    void change_selected_button(int button_number);
+
     // buttons
     int current_button_selected = 0;
     int button_count = 4;

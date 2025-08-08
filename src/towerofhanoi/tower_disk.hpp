@@ -21,6 +21,7 @@ public:
 
     // move disk to another position
     void move_to(int location_horizontal, int location_vertical);
+    
 private:
     // contain color, rgba format
     float_color disk_color;

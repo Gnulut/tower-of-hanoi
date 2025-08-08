@@ -10,7 +10,7 @@ tower_data::tower_data(){
 void tower_data::new_game(int new_size, start_or_target_position start_position, start_or_target_position target_position){
     this->size = new_size;
     this->cache_target_position = target_position;
-    {//reset items
+    {// reset items
         for(int i=0; i<tower_data::MAX_WIDTH; ++i){
             pegs[i].clear();
         }
@@ -124,7 +124,7 @@ const tower_disk* tower_data::view_target() const {
     return this->target_disks;
 }
 
-int tower_data::get_optimal() const {
+unsigned int tower_data::get_optimal() const {
     return this->optimal_moves;
 }
 

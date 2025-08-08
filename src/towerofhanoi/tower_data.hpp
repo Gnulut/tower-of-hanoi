@@ -58,7 +58,7 @@ public:
     const tower_disk* view_target() const;
 
     // get optimal count
-    int get_optimal() const;
+    unsigned int get_optimal() const;
 
     // get max height
     inline constexpr int get_max_height() const { return tower_data::MAX_HEIGHT; }

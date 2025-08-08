@@ -5,12 +5,12 @@
 #include "scene.hpp"
 #include "config.hpp"
 #include "tower_data.hpp"
+#include "tower_GUI.hpp"
 #include "draw_utils.hpp"
 
 class game_menu_scene:public scene{
 private:
     // developer settings
-    const float innie_rect_ratio = 0.05;
 public:
     game_menu_scene(tower_data& tower);
     SDL_AppResult event(SDL_Event* event) override;
@@ -21,13 +21,15 @@ public:
 
     // link this menu to another menu
     void set_next_scene(scene* const next_scene);
+    
+    bool has_move() const;
+    int get_move() const;
+    bool get_show_target() const;
 
-protected:
-    // create new rect (heap) which represent its GUI position
-    SDL_FRect* make_disk_rect(const tower_disk& disk) const;
 private:
     // data source
     tower_data& tower;
+    tower_GUI tower_gui;
 
     // contains info for move action
     int move_positions[2] = {};
@@ -38,7 +40,7 @@ private:
     unsigned int optimal_moves = 0;
     
     // graphical data
-    float peg_width;
-    float minor_disk_width;
-    float disk_height;
+    const float innie_rect_ratio = 0.05;
+    bool show_target = true;
+
 };
