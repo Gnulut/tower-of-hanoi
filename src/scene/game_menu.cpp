@@ -6,7 +6,8 @@ game_menu_scene::game_menu_scene(tower_data& tower)
     reset();
 }
 
-SDL_AppResult game_menu_scene::event(SDL_Event* event) {
+SDL_AppResult game_menu_scene::event(SDL_Event* event)
+{
     switch(event->type){
         // keyboard down
         case SDL_EVENT_KEY_DOWN:{
@@ -40,8 +41,7 @@ SDL_AppResult game_menu_scene::event(SDL_Event* event) {
                 const int tower_width = this->tower.get_width();
 
                 // deduce which peg is chosen
-                double peg_width = (double)constants::WINDOW_WIDTH / tower_width;
-                int tower_position = (int)(mouse_x / peg_width);
+                int tower_position = (int)(mouse_x / this->peg_width);
                 // new move
                 if (this->move_index == 0){
                     this->move_positions[this->move_index] = tower_position;
@@ -73,7 +73,8 @@ SDL_AppResult game_menu_scene::event(SDL_Event* event) {
     return SDL_APP_CONTINUE;
 }
 
-void game_menu_scene::render(SDL_Renderer* renderer) {
+void game_menu_scene::render(SDL_Renderer* renderer, SDL_Window* window) const
+{
     const int tower_height = this->tower.get_height();
     {// render current_tower
         for (int tower_position = 0; tower_position < this->tower.get_width(); ++tower_position){
@@ -141,8 +142,8 @@ void game_menu_scene::render(SDL_Renderer* renderer) {
             delete rect;
         }else{// no disk
             // get rect
-            SDL_FRect rect{(float) location_horizontal * (float) constants::WINDOW_WIDTH / (float) this->tower.get_width(), 0.f, 
-                           (float) constants::WINDOW_WIDTH / (float) this->tower.get_width(), constants::WINDOW_HEIGHT};
+            SDL_FRect rect{(float) location_horizontal * (float) constants::START_WINDOW_WIDTH / (float) this->tower.get_width(), 0.f, 
+                           (float) constants::START_WINDOW_WIDTH / (float) this->tower.get_width(), constants::START_WINDOW_HEIGHT};
             // put rect
             draw_innie_rectangle_weighted(renderer, rect, 1.0f, 1.0f, 0.2f, SDL_ALPHA_OPAQUE_FLOAT, (float)(this->innie_rect_ratio*std::min(rect.w, rect.h)));
         }
@@ -156,7 +157,8 @@ void game_menu_scene::render(SDL_Renderer* renderer) {
     SDL_SetRenderScale(renderer, 1.0f, 1.0f);
 }
 
-scene* game_menu_scene::switch_scene(){
+scene* game_menu_scene::switch_scene()
+{
     // for now only simple scene switch, same as all other scene, when scenes has branching it will differ
     if(this->switch_scene_flag){
         this->switch_scene_flag=false;
@@ -166,24 +168,31 @@ scene* game_menu_scene::switch_scene(){
     }
 }
 
-void game_menu_scene::set_next_scene(scene* next_scene){
+void game_menu_scene::set_next_scene(scene* const next_scene)
+{
     this->next_scene = next_scene;
 }
 
-void game_menu_scene::reset(){
-    this->peg_width = (double) constants::WINDOW_WIDTH / this->tower.get_width();
-    this->minor_disk_width = this->peg_width / (double) this->tower.get_height();
-    this->disk_height = (double) constants::WINDOW_HEIGHT / (double) this->tower.get_height();
+void game_menu_scene::reset()
+{
     this->optimal_moves = this->tower.get_optimal();
     this->move_counter = 0;
 }
 
-SDL_FRect* game_menu_scene::make_disk_rect(const tower_disk& disk){
+void game_menu_scene::resize(const int new_window_weight, const int new_window_height)
+{
+    this->peg_width = (float) new_window_weight / (float) this->tower.get_width();
+    this->minor_disk_width = this->peg_width / (float) this->tower.get_height();
+    this->disk_height = (float) new_window_height / (float) this->tower.get_height();
+}
+
+SDL_FRect* game_menu_scene::make_disk_rect(const tower_disk& disk) const
+{
     // in pixels
     double disk_width = this->minor_disk_width * (double) disk.get_size();
     return new SDL_FRect{
-                (float)(constants::WINDOW_WIDTH * (disk.get_horizontal() + 0.5) / this->tower.get_width() - (disk_width * 0.5)),
-                (float)(constants::WINDOW_HEIGHT - this->disk_height * (disk.get_vertical() + 1)),
+                (float)(constants::START_WINDOW_WIDTH * (disk.get_horizontal() + 0.5) / this->tower.get_width() - (disk_width * 0.5)),
+                (float)(constants::START_WINDOW_HEIGHT - this->disk_height * (disk.get_vertical() + 1)),
                 (float)disk_width, 
                 (float)this->disk_height
                 };

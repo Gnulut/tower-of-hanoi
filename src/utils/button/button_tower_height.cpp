@@ -25,18 +25,21 @@ void button_tower_height::render(SDL_Renderer* renderer) const
     SDL_FPoint mouse_point;
     SDL_GetMouseState(&mouse_point.x, &mouse_point.y);
 
+    float border_weight = this->border_weight_ratio*std::min(this->rect.h, this->rect.w);
+
     // mouse hover
     if(SDL_PointInRectFloat(&mouse_point, &this->rect)){
-        draw_bordered_rectangle_weighted(renderer, this->rect, this->color_bright, this->color_border_bright, this->border_weight);
+        draw_bordered_rectangle_weighted(renderer, this->rect, this->color_bright, this->color_border_bright, border_weight);
     }
     // mouse not hover
     else{
-        draw_bordered_rectangle_weighted(renderer, this->rect, this->color_normal, this->color_border, this->border_weight);
+        draw_bordered_rectangle_weighted(renderer, this->rect, this->color_normal, this->color_border, border_weight);
     }
     const float scaler = 2.0;
     SDL_FRect render_rect = this->rect;
-    render_rect.x += this->border_weight;
-    render_rect.y += this->border_weight;
+    
+    render_rect.x += border_weight;
+    render_rect.y += border_weight;
     render_rect.x/=scaler;
     render_rect.y/=scaler;
     SDL_SetRenderScale(renderer, scaler, scaler);
@@ -47,7 +50,7 @@ void button_tower_height::render(SDL_Renderer* renderer) const
     SDL_SetRenderScale(renderer, 1.0f, 1.0f);
 
     if(this->selected){
-        draw_outie_rectangle_weighted(renderer, this->rect, this->color_border_select, this->border_weight);
+        draw_outie_rectangle_weighted(renderer, this->rect, this->color_border_select, border_weight);
     }
 }
 

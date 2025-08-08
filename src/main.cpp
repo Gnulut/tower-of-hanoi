@@ -16,13 +16,13 @@ SDL_AppResult SDL_AppInit(void** appstate, int argc, char* argv[]){
     
     *appstate = game_engine;
     if (!SDL_CreateWindowAndRenderer("Tower of Hanoi", 
-        constants::WINDOW_WIDTH, constants::WINDOW_HEIGHT, 0, 
+        constants::START_WINDOW_WIDTH, constants::START_WINDOW_HEIGHT, SDL_WINDOW_RESIZABLE, 
         &game_engine->get_window(), &game_engine->get_renderer())) 
     {
         SDL_Log("Couldn't create window/renderer: %s", SDL_GetError());
         return SDL_APP_FAILURE;
     }
-
+    game_engine->resize();
     if(!SDL_SetRenderDrawBlendMode(game_engine->get_renderer(), SDL_BLENDMODE_BLEND)){
         SDL_Log("Couldn't set render draw blend mode: %s", SDL_GetError());
     }
@@ -35,8 +35,8 @@ SDL_AppResult SDL_AppEvent(void* appstate, SDL_Event* event){
 
 SDL_AppResult SDL_AppIterate(void* appstate){
     engine* game_engine = (engine*)appstate;
-    game_engine->render();
     game_engine->try_switch();
+    game_engine->render();
     return SDL_APP_CONTINUE;  /* carry on with the program! */
 }
 

@@ -83,7 +83,7 @@ private:
 // functions
 
     // compute the optimal solution and stores it
-    int optimal_moves = 0;
+    unsigned int optimal_moves = 0;
     void compute_optimal();
 
     // helper function, should only be called by compute_optimal

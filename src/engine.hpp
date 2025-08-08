@@ -16,13 +16,16 @@ public:
 // core function(s)
 
     // render
-    void render();
+    void render() const;
 
     // Event handlers
     SDL_AppResult event(SDL_Event* event);
 
     // change scene
     void try_switch();
+
+    // resize event handling
+    void resize();
 
 // misc function(s)
 

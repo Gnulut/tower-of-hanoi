@@ -47,8 +47,6 @@ cmake --build build
 ```
 
 # Next target(s)
-- make live demo
-- remake main menu
 - make resizeable window
 - use ttf to display text
 - create other ways to display target disk

@@ -10,24 +10,21 @@
 class game_menu_scene:public scene{
 private:
     // developer settings
-    const double innie_rect_ratio = 0.05;
+    const float innie_rect_ratio = 0.05;
 public:
     game_menu_scene(tower_data& tower);
-
     SDL_AppResult event(SDL_Event* event) override;
-
-    void render(SDL_Renderer* renderer) override;
-
+    void render(SDL_Renderer* renderer, SDL_Window* window) const override;
     scene* switch_scene() override;
-
     void reset() override;
+    void resize(const int new_window_width, const int new_window_height) override;
 
     // link this menu to another menu
-    void set_next_scene(scene* next_scene);
+    void set_next_scene(scene* const next_scene);
 
 protected:
     // create new rect (heap) which represent its GUI position
-    SDL_FRect* make_disk_rect(const tower_disk& disk);
+    SDL_FRect* make_disk_rect(const tower_disk& disk) const;
 private:
     // data source
     tower_data& tower;
@@ -41,7 +38,7 @@ private:
     unsigned int optimal_moves = 0;
     
     // graphical data
-    double peg_width;
-    double minor_disk_width;
-    double disk_height;
+    float peg_width;
+    float minor_disk_width;
+    float disk_height;
 };

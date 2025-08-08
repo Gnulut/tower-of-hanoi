@@ -1,30 +1,19 @@
 #include "main_menu.hpp"
 
 main_menu_scene::main_menu_scene(tower_data& tower):
-    tower(tower)
+    tower(tower), tower_height_button(tower)
 {
-    SDL_FRect rect = {0.1f*constants::WINDOW_WIDTH, 0.1f*constants::WINDOW_HEIGHT,
-                      0.3f*constants::WINDOW_WIDTH, 0.3f*constants::WINDOW_HEIGHT};
     // tower height button
-    this->buttons[this->tower_height_button_index] = new button_tower_height(rect, tower);
-    rect.x += 0.5f*constants::WINDOW_WIDTH;
-
+    this->buttons[this->tower_height_button_index] = &this->tower_height_button;
     // tower position button (start)
-    button_tower_position* start_position_button = new button_tower_position(rect);
-    this->buttons[this->tower_start_position_index] = (button_base*) start_position_button;
-    rect.y += 0.5f*constants::WINDOW_HEIGHT;
-
+    this->buttons[this->tower_start_position_index] = &this->tower_start_position_button;
     // tower position button (target)
-    button_tower_position* target_position_button = new button_tower_position(rect);
-    this->buttons[this->tower_target_position_index] = target_position_button;
-    start_position_button->set_neighbour(target_position_button);
-    target_position_button->set_neighbour(start_position_button);
-    rect.x -= 0.5f*constants::WINDOW_WIDTH;
-
+    this->buttons[this->tower_target_position_index] = &this->tower_target_position_button;
+    this->tower_start_position_button.set_neighbour(&this->tower_target_position_button);
+    this->tower_target_position_button.set_neighbour(&this->tower_start_position_button);
     // tower start game button
-    button_start* start_button = new button_start(rect);
-    start_button->link_menu(this);
-    this->buttons[this->start_button_index] = start_button;
+    this->tower_start_button.link_menu(this);
+    this->buttons[this->tower_start_button_index] = &this->tower_start_button;
 
     // default selected button
     this->current_button_selected = 0;
@@ -33,9 +22,7 @@ main_menu_scene::main_menu_scene(tower_data& tower):
 
 main_menu_scene::~main_menu_scene()
 {
-    for(int i=0; i<this->button_count; ++i){
-        delete this->buttons[i];
-    }
+
 }
 
 SDL_AppResult main_menu_scene::event(SDL_Event *event)
@@ -76,7 +63,7 @@ SDL_AppResult main_menu_scene::event(SDL_Event *event)
                         this->buttons[this->current_button_selected]->select();
 
                         // start button (special case [double click])
-                        if(this->current_button_selected == this->start_button_index && event->button.clicks >= 2){
+                        if(this->current_button_selected == this->tower_start_button_index && event->button.clicks >= 2){
                             this->change_scene();
                         }
                         break;
@@ -92,7 +79,7 @@ SDL_AppResult main_menu_scene::event(SDL_Event *event)
     return SDL_APP_CONTINUE;
 }
 
-void main_menu_scene::render(SDL_Renderer *renderer)
+void main_menu_scene::render(SDL_Renderer* renderer, SDL_Window* window) const
 {
     for(int button_index=0; button_index < this->button_count; ++button_index){ // iterate button(s)
         this->buttons[button_index]->render(renderer);
@@ -111,7 +98,7 @@ scene* main_menu_scene::switch_scene()
     }
 }
 
-void main_menu_scene::set_next_scene(scene* next_scene)
+void main_menu_scene::set_next_scene(scene* const next_scene)
 {
     this->next_scene = next_scene;
 }
@@ -119,6 +106,26 @@ void main_menu_scene::set_next_scene(scene* next_scene)
 void main_menu_scene::reset()
 {
     
+}
+
+void main_menu_scene::resize(const int new_window_width, const int new_window_height)
+{
+    SDL_FRect rect = {0.1f*new_window_width, 0.1f*new_window_height,
+                      0.3f*new_window_width, 0.3f*new_window_height};
+    // tower height button
+    this->tower_height_button.set_rect(rect);
+    rect.x += 0.5f*new_window_width;
+
+    // tower position button (start)
+    this->tower_start_position_button.set_rect(rect);
+    rect.y += 0.5f*new_window_height;
+
+    // tower position button (target)
+    this->tower_target_position_button.set_rect(rect);
+    rect.x -= 0.5f*new_window_width;
+
+    // tower start game button
+    this->tower_start_button.set_rect(rect);
 }
 
 void main_menu_scene::change_scene()

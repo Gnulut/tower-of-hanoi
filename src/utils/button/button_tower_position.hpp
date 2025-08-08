@@ -50,7 +50,7 @@ private:
     mutable int get_text_cutoff;
 
     // rectangle colors
-    float border_weight = 30; // in pixels
+    float border_weight_ratio = 0.10;
     float_color color_text{0.4f, 1.0f, 0.4f, 1.0f};
     float_color color_normal{0.8f, 0.3f, 0.3f, 1.0f};
     float_color color_bright{1.0f, 0.5f, 0.5f, 1.0f};
